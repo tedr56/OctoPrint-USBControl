@@ -1,0 +1,4 @@
+include README.md
+recursive-include usbcontrol/templates *
+recursive-include usbcontrol/translations *
+recursive-include usbcontrol/static *

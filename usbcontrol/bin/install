@@ -1,0 +1,15 @@
+#!/bin/sh
+
+ID=`id -u`
+if [ $ID -ne 0 ]; then
+    echo "Creating an /etc/sudoers.d/* file requires account elevation."
+    echo "(Please re-run this by prepending sudo before the command.)"
+    echo ""
+else
+    echo "pi ALL=(ALL) NOPASSWD: /home/pi/oprint/lib/python2.7/site-packages/usbcontrol/bin/uhubctl" > /etc/sudoers.d/uhubctl
+    echo "If that ran without problems, the plugin should now be ready. Don't forget to press the Save button"
+    echo "in the OctoPrint -> Settings -> USBControl page when finished here. Once you've done this then restart"
+    echo "OctoPrint. Then the next time you visit the settings page the interface should then include the"
+    echo "control sliders for each USB port."
+    echo ""
+fi

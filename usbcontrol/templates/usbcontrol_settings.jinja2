@@ -1,0 +1,76 @@
+<div>
+    <h3>{{ _('USBControl settings') }}</h3>
+    <div style='display: {{ 'none' if plugin_usbcontrol_init else 'block' }}'>
+        <div style="clear:both">
+            See the <a href="https://github.com/OutsourcedGuru/OctoPrint-USBControl" target="_blank">README.md</a> for how to set things up.
+            <br/><br/>
+        </div>
+        <h3>{{ _('Setup required') }}</h3>
+        <p>First things first, we need to permission the <code>pi</code> user so that it can run the <code>uhubctl</code> executable
+            without providing a password.</p>
+        <p>To do this, you'll need to remote into the Raspberry Pi 3B and run the following command:</p>
+        <p><code>sudo ~/oprint/lib/python2.7/site-packages/usbcontrol/bin/install</code><br/></p>
+        <form class="form-horizontal">
+            <label class="switch">
+                <input type="checkbox" data-bind="click: saveInit">
+                <span class="slider round"></span>
+                <span class="theLabel">{{ _('Okay,&nbsp;I&nbsp;have&nbsp;done&nbsp;this') }}</span>
+            </label>
+        </form>
+    </div>
+    <div style='display: {{ 'block' if plugin_usbcontrol_init else 'none' }}'>
+        <div style="clear:both">
+            See the <a href="https://github.com/OutsourcedGuru/OctoPrint-USBControl" target="_blank">README.md</a> for how to set things up.
+            Blue in the slider below indicates that 5V power is ON for the indicated port, the default.<br/><br/>
+        </div>
+        <form class="form-horizontal">
+            <label class="switch">
+                <input id="idUSB2" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb2, click: togglePower2">
+                <span class="slider round"></span>
+                <span class="theLabel">{{ _('USB&nbsp;2') }}</span>
+            </label>
+            <br/>
+            <label class="switch">
+                <input id="idUSB3" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb3, click: togglePower3">
+                <span class="slider round"></span>
+                <span class="theLabel">{{ _('USB&nbsp;3') }}</span>
+            </label>
+            <br/>
+            <label class="switch">
+                <input id="idUSB4" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb4, click: togglePower4">
+                <span class="slider round"></span>
+                <span class="theLabel">{{ _('USB&nbsp;4') }}</span>
+            </label>
+            <br/>
+            <label class="switch">
+                <input id="idUSB5" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb5, click: togglePower5">
+                <span class="slider round"></span>
+                <span class="theLabel">{{ _('USB&nbsp;5') }}</span>
+            </label>
+        </form>
+    </div>
+    <table><tr><td valign="top"><h3>{{ _('Why this might be useful') }}</h3>
+        <ol>
+            <li>The USB specification was created originally when the Type-A side of a USB cable was the PC and the Type-B side was the device.
+            It was assumed that the PC could always provide power to the device.</li>
+            <li>For OctoPi, the Type-A side is the Raspberry Pi 3B with a 5V 2.5A power adapter. It can't be sinking power over to the printer
+            controller board since that's now considered to be the one with beefier power needs.</li>
+            <li>It is suggested that this sinking of power is causing undervoltage conditions.</li>
+            <li>The typical USB connection has four pins: 5V, ground, transmit and receive. OctoPrint appears to be happy with just the last three
+            of these.</li>
+            <li>Many people are applying a small strip of tape to the inside of their Type-A connectors to prevent 5V from being felt on the
+            controller (Arduino) board.</li>
+        </ol>
+        <p>It turns out that you can programmatically turn off the 5V pin on a per-port basis. That's the approach that I'm taking here instead
+            of using tape.</p>
+        </td><td width="50%" valign="top" align="right">
+            <a href="https://github.com/OutsourcedGuru" target="_blank"><img src="plugin/usbcontrol/static/img/profile.png"></a>
+        </td>
+    <tr><tr><td colspan="2"><hr/></td>
+    </tr><tr>
+        <td>Tip me (BTC)</td><td width="50%" align="right">Tip me (ETH)</td>
+    </tr><tr>
+        <td valign="top"><img src="plugin/usbcontrol/static/img/btc-receive.png" width="250" height="250"></td>
+        <td width="50%" valign="top" align="right"><img src="plugin/usbcontrol/static/img/eth-receive.png" width="280" height="280" style='margin-top: -15px; margin-right: -15px'></td>
+    </tr></table>
+</div>
