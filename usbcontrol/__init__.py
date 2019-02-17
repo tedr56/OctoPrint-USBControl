@@ -1,10 +1,12 @@
 # coding=utf-8
 from __future__                             import absolute_import
 from subprocess import check_output
-from subprocess import call
+from subprocess import call, Popen, PIPE
 from octoprint.settings import settings, valid_boolean_trues
+import flask
 import octoprint.plugin
 import os
+import re
 
 class UsbcontrolPlugin(octoprint.plugin.SettingsPlugin,
                        octoprint.plugin.AssetPlugin,
@@ -13,12 +15,18 @@ class UsbcontrolPlugin(octoprint.plugin.SettingsPlugin,
                        octoprint.plugin.TemplatePlugin):
 
 	def get_settings_defaults(self):
+		s =                                     settings()
 		return dict(
 			usb2 =                                True,
-			usb3 =                                True,
-			usb4 =                                True,
-			usb5 =                                True,
-			init =                                False
+			usb3 =                                True if s.get(["plugins", "usbcontrol", "isRaspi3Bplus"]) else False,
+			usb4 =                                True if s.get(["plugins", "usbcontrol", "isRaspi3Bplus"]) else False,
+			usb5 =                                True if s.get(["plugins", "usbcontrol", "isRaspi3Bplus"]) else False,
+			init =                                False,
+			isRaspi2B =                           False,
+			isRaspi3B =                           False,
+			isRaspi3Bplus =                       False,
+			cpuRevision =                         'unknown',
+			piModel =                             'unknown'
 		)
 
 	def get_template_vars(self):
@@ -27,7 +35,12 @@ class UsbcontrolPlugin(octoprint.plugin.SettingsPlugin,
 			usb3 =                                self._settings.get(["usb3"]),
 			usb4 =                                self._settings.get(["usb4"]),
 			usb5 =                                self._settings.get(["usb5"]),
-			init =                                self._settings.get(["init"])
+			init =                                self._settings.get(["init"]),
+			isRaspi2B =                           self._settings.get(["isRaspi2B"]),
+			isRaspi3B =                           self._settings.get(["isRaspi3B"]),
+			isRaspi3Bplus =                       self._settings.get(["isRaspi3Bplus"]),
+			cpuRevision =                         self._settings.get(["cpuRevision"]),
+			piModel =                             self._settings.get(["piModel"])
 		)
 
 	def get_template_configs(self):
@@ -44,12 +57,21 @@ class UsbcontrolPlugin(octoprint.plugin.SettingsPlugin,
 		return dict(usb2=["arg2"],usb3=["arg3"],usb4=["arg4"],usb5=["arg5"],save=["init"])
 
 	def on_api_command(self, command, data):
-		import flask
 		uhubctlFolder =                         "/home/pi/oprint/lib/python2.7/site-packages/usbcontrol/bin"
 		if command == "save":
 			self._logger.info("save init in settings")
+			progRev =                             Popen(["cat", "/proc/cpuinfo"], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+			cpuinfo, err =                        progRev.communicate(b"")
+			matchObj =                            re.search(r'^Revision\s+:\s+(.*)$', cpuinfo, re.M)
+			cpuRevision =                         matchObj.group(1) if matchObj else ""
+			piModel =                             self.switch(cpuRevision, 'unknown')
 			s =                                   settings()
-			s.setBoolean(["plugins", "usbcontrol", "init"], True)
+			s.setBoolean(["plugins", "usbcontrol", "init"],           True)
+			s.setBoolean(["plugins", "usbcontrol", "isRaspi2B"],      True if piModel == "Raspi2B" else False)
+			s.setBoolean(["plugins", "usbcontrol", "isRaspi3B"],      True if piModel == "Raspi3B" else False)
+			s.setBoolean(["plugins", "usbcontrol", "isRaspi3Bplus"],  True if piModel == "Raspi3B+" else False)
+			s.set(["plugins", "usbcontrol", "cpuRevision"],           cpuRevision)
+			s.set(["plugins", "usbcontrol", "piModel"],               piModel)
 			s.save()
 		if command == "usb2":
 			strArg2 =                             "{arg2}".format(**data)
@@ -91,6 +113,39 @@ class UsbcontrolPlugin(octoprint.plugin.SettingsPlugin,
 			except OSError as e:
 				self._logger.info("uhubctl failed, throwing error")
 				output =                            "N/A"
+
+	def switch(self, key, default):
+		case = {
+			'0007':   'RaspiA',
+			'0008':   'RaspiA',
+			'0009':   'RaspiA',
+			'0012':   'RaspiA+',
+			'0015':   'RaspiA+',
+			'0002':   'RaspiB',
+			'0003':   'RaspiB',
+			'0004':   'RaspiB',
+			'0005':   'RaspiB',
+			'0006':   'RaspiB',
+			'000d':   'RaspiB',
+			'000e':   'RaspiB',
+			'000f':   'RaspiB',
+			'0010':   'RaspiB+',
+			'0013':   'RaspiB+',
+			'900032': 'RaspiB+',
+			'a01041': 'Raspi2B',
+			'a21041': 'Raspi2B',
+			'a21042': 'Raspi2B',
+			'a02082': 'Raspi3B',
+			'a22082': 'Raspi3B',
+			'a020d3': 'Raspi3B+',
+			'9000c1': 'ZeroW',
+			'9000C1': 'ZeroW',
+			'900092': 'Zero',
+			'900093': 'Zero',
+			'0011':   'Compute',
+			'0014':   'Compute'
+		}
+		return case.get(key, default)
 
 	def on_startup(self, host, port):
 		pass

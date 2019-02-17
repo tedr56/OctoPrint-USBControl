@@ -18,36 +18,48 @@
             </label>
         </form>
     </div>
-    <div style='display: {{ 'block' if plugin_usbcontrol_init else 'none' }}'>
+    <div style='display: {{ 'block' if plugin_usbcontrol_init and (plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B or plugin_usbcontrol_isRaspi3Bplus) else 'none' }}'>
         <div style="clear:both">
             See the <a href="https://github.com/OutsourcedGuru/OctoPrint-USBControl" target="_blank">README.md</a> for how to set things up.
             Blue in the slider below indicates that 5V power is ON for the indicated port, the default.<br/><br/>
         </div>
         <form class="form-horizontal">
+            <div style='display: {{ 'block' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else 'none' }}'>
+                <h3>Important Raspberry Pi 2B/3B notice!</h3>
+                <p>Given the internal design of the versions <i>before</i> the 3B+, one can only control USB power
+                    inside the Raspberry for either <i>all</i> network adapters (Port 1) or <i>all</i> four ganged USB
+                    ports (Ports 2-5) at once.<br/><br/></p>
+            </div>
             <label class="switch">
                 <input id="idUSB2" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb2, click: togglePower2">
                 <span class="slider round"></span>
-                <span class="theLabel">{{ _('USB&nbsp;2') }}</span>
+                <span class="theLabel" style="white-space:nowrap">{{ _('USB&nbsp;2') }} {{'<i class="fa fa-arrow-left"></i> Raspi 2B/3B = all four ports' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}</span>
             </label>
             <br/>
             <label class="switch">
-                <input id="idUSB3" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb3, click: togglePower3">
+                <input id="idUSB3" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb3, click: togglePower3" {{'disabled' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}>
                 <span class="slider round"></span>
                 <span class="theLabel">{{ _('USB&nbsp;3') }}</span>
             </label>
             <br/>
             <label class="switch">
-                <input id="idUSB4" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb4, click: togglePower4">
+                <input id="idUSB4" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb4, click: togglePower4" {{'disabled' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}>
                 <span class="slider round"></span>
                 <span class="theLabel">{{ _('USB&nbsp;4') }}</span>
             </label>
             <br/>
             <label class="switch">
-                <input id="idUSB5" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb5, click: togglePower5">
+                <input id="idUSB5" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb5, click: togglePower5" {{'disabled' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}>
                 <span class="slider round"></span>
                 <span class="theLabel">{{ _('USB&nbsp;5') }}</span>
             </label>
         </form>
+    </div>
+    <div style='display: {{ 'none' if (not plugin_usbcontrol_init) or (plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B or plugin_usbcontrol_isRaspi3Bplus) else 'block' }}'>
+        <div style="clear:both">
+            <code>It looks like your OctoPrint is installed on something other than a Raspberry Pi 2B,<br/>
+            3B or 3B+ and therefore isn't compatible with this plugin.</code><br/><br/>
+        </div>
     </div>
     <table><tr><td valign="top"><h3>{{ _('Why this might be useful') }}</h3>
         <ol>

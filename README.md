@@ -20,7 +20,7 @@ Rather than rigging up inline switches, applying tape inside the tongue of a USB
 
     ...I thought that I would provide this plugin as a simpler alternative.
 
-![SettingsPage](https://user-images.githubusercontent.com/15971213/52870012-bef28480-30fb-11e9-80a5-94bc58f35455.png)
+![Settings](https://user-images.githubusercontent.com/15971213/52908070-d4ae9980-3222-11e9-925a-6bff7af7badb.png)
 
 ## Compatibility
 This plugin was created to support only the following platforms:
@@ -46,6 +46,11 @@ I expect that this plugin would be useful for anyone who needs to remove power w
 
 ## Complications
 
+### Raspberry Pi 2B/3B can't individually control ports
+The `uhubctl` author informs me that internally the Raspberry Pi 2B and 3B cannot individually toggle ports. At best, the gang of four ports can be toggled as a group.
+
+In theory, the Raspberry Pi 3B+ can individually control the ports.
+
 ### This won't necessarily work while printing
 I note that on my own test rig, the Robo 3D printer board includes a jumper to determine how the board is powered. If the jumper is set to "USB", this plugin works as expected to completely power ON/OFF all functions on the board over the USB port although this wouldn't technically work in a real printer given the power limitation. **If instead the jumper is set to "5V" then toggling the associated USB port to OFF from this plugin will result in a communication error after the timeout has been reached.** Therefore this is not compatible with the normal functioning of this board for the purpose of printing.
 
@@ -56,11 +61,6 @@ I note that on my own test rig, the Robo 3D printer board includes a jumper to d
 | ![CommunicationsError](https://user-images.githubusercontent.com/15971213/52870077-e1849d80-30fb-11e9-8924-95b889d39797.png)| ![TooManyTimeouts](https://user-images.githubusercontent.com/15971213/52870118-f8c38b00-30fb-11e9-9fd5-0ee2938f7ba4.png) |
 
 So in some cases, this simply won't work for printing. (A better alternative might be a USB adapter with an inline diode for the 5V line.)
-
-### Power-only devices
-Since USB-powered LEDs and fans and similar devices do not communicate a unique manufacturer's ID to the Raspberry when connected, they cannot be individually controlled by `uhubctl` within this plugin.
-
-They often appear to coincide with USB port 2 even if this is being used already by your printer's controller board. You could plug in four USB lights and toggle all four OFF/ON via USB port 2, in other words.
 
 ### Which port?
 There are five USB ports on the USB hub known as `1-1` in the Raspberry Pi 3B. USB port 1 is the micro USB connection we usually power the board with. The remaining ports 2 through 5 are represented in the interface.
