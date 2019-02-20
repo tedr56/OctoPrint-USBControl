@@ -94,6 +94,8 @@ When initially installed, the plugin still needs a script to be run once. The in
 4. Restart OctoPrint
 5. Return to the **Settings** page (you should see the control sliders now for each USB port)
 
+> For an OctoPi installation, the command you are asked to run in Step 3 above would be `sudo ~/oprint/lib/python2.7/site-packages/usbcontrol/bin/install`.
+
 ## REST API
 The plugin includes an API for programmatically toggling the ports ON/OFF in a way which is similar to OctoPrint's. You can find/copy your API key under **Settings** -> **API**.
 
