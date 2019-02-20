@@ -11,9 +11,9 @@
         <p>To do this, you'll need to remote into the Raspberry Pi 3B and run the following command:</p>
         <p><code>sudo ~/oprint/lib/python2.7/site-packages/usbcontrol/bin/install</code><br/></p>
         <form class="form-horizontal">
-            <label class="switch">
+            <label class="og_switch">
                 <input type="checkbox" data-bind="click: saveInit">
-                <span class="slider round"></span>
+                <span class="og_slider round"></span>
                 <span class="theLabel">{{ _('Okay,&nbsp;I&nbsp;have&nbsp;done&nbsp;this') }}</span>
             </label>
         </form>
@@ -30,27 +30,27 @@
                     inside the Raspberry for either <i>all</i> network adapters (Port 1) or <i>all</i> four ganged USB
                     ports (Ports 2-5) at once.<br/><br/></p>
             </div>
-            <label class="switch">
+            <label class="og_switch">
                 <input id="idUSB2" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb2, click: togglePower2">
-                <span class="slider round"></span>
+                <span class="og_slider round"></span>
                 <span class="theLabel" style="white-space:nowrap">{{ _('USB&nbsp;2') }} {{'<i class="fa fa-arrow-left"></i> Raspi 2B/3B = all four ports' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}</span>
             </label>
             <br/>
-            <label class="switch">
+            <label class="og_switch">
                 <input id="idUSB3" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb3, click: togglePower3" {{'disabled' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}>
-                <span class="slider round"></span>
+                <span class="og_slider round"></span>
                 <span class="theLabel">{{ _('USB&nbsp;3') }}</span>
             </label>
             <br/>
-            <label class="switch">
+            <label class="og_switch">
                 <input id="idUSB4" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb4, click: togglePower4" {{'disabled' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}>
-                <span class="slider round"></span>
+                <span class="og_slider round"></span>
                 <span class="theLabel">{{ _('USB&nbsp;4') }}</span>
             </label>
             <br/>
-            <label class="switch">
+            <label class="og_switch">
                 <input id="idUSB5" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb5, click: togglePower5" {{'disabled' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}>
-                <span class="slider round"></span>
+                <span class="og_slider round"></span>
                 <span class="theLabel">{{ _('USB&nbsp;5') }}</span>
             </label>
         </form>
