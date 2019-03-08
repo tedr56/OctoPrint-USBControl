@@ -49,7 +49,11 @@ I expect that this plugin would be useful for anyone who needs to remove power w
 ### Raspberry Pi 2B/3B can't individually control ports
 The `uhubctl` author informs me that internally the Raspberry Pi 2B and 3B cannot individually toggle ports. At best, the gang of four ports can be toggled as a group.
 
-In theory, the Raspberry Pi 3B+ can individually control the ports.
+### Raspberry Pi 3B+
+
+I've just purchased and tested the Raspberry Pi 3B+ thoroughly. It seems to have an odd pairing of one internal hub in two sections. In theory, your printer would be controllable from USB2 and a second smart device from USB3. You may also toggle ALL of the Type A style of USB ports as well from the ALL slider.
+
+For my own printer controller board, toggling the power off prevents any communications from happening (but at least it wouldn't sink power over to it, if this is your intention).
 
 ### This won't necessarily work while printing
 I note that on my own test rig, the Robo 3D printer board includes a jumper to determine how the board is powered. If the jumper is set to "USB", this plugin works as expected to completely power ON/OFF all functions on the board over the USB port although this wouldn't technically work in a real printer given the power limitation. **If instead the jumper is set to "5V" then toggling the associated USB port to OFF from this plugin will result in a communication error after the timeout has been reached.** Therefore this is not compatible with the normal functioning of this board for the purpose of printing.
@@ -68,6 +72,9 @@ There are five USB ports on the USB hub known as `1-1` in the Raspberry Pi 3B. U
 The Raspbian operating system assigns these port numbers not by their physical location in the four-connector arrangement but by the ID of the device during bootup or when the cable is connected.
 
 For this reason, I a not persistently storing your settings for every session because this could get confusing if you add/remove USB devices.
+
+#### Raspberry Pi 3B+
+This computer has both a `1-1` and a `1-1.1` hub as seen from `lsusb`, for example. The second version has some individual control over the first two smart ports, as seen now in the Settings interface.
 
 ### Persistence
 At the moment, this plugin does not save the power state for each USB port. Each restart of OctoPrint will basically forget how you last left these and assume that they're all ON.
@@ -116,6 +123,21 @@ For USB port 2, the `arg2` options are "on" and "off".
 
 ### Controlling USB ports 3 through 5 remotely
 The API is similar for the remaining ports. Instead of "usb2" and "arg2", replace these with the appropriate number.
+
+#### Raspberry Pi 3B+
+There is a special case for this computer (only) for the API to allow all ports to be toggled ON/OFF.
+
+```
+POST /api/plugin/usbcontrol HTTP/1.1
+Host: example.com
+Content-Type: application/json
+X-Api-Key: abcdef...
+
+{
+  "command": "all",
+  "argAll": "on"
+}
+```
 
 ## Reporting bugs/issues
 Please do not report a bug if you *can't* print with the USB power turned OFF. It is assumed that this is the case for most printer controllers. If this does work for you, feel lucky.

@@ -85,6 +85,22 @@ $(function() {
             });
             return true;
         };
+
+        togglePowerAll = function() {
+            var e =  document.getElementById('idUSBAll');
+            console.log('togglePowerAll(): ', e.checked ? 'ON' : 'OFF');
+            $.ajax({
+                url:         "/api/plugin/usbcontrol",
+                type:        "POST",
+                contentType: "application/json",
+                dataType:    "json",
+                headers:     {"X-Api-Key": UI_API_KEY},
+                data:        JSON.stringify({"command": "all", "argAll": e.checked ? "on" : "off"}),
+                complete: function () {
+                }
+            });
+            return true;
+        };
     }
 
     OCTOPRINT_VIEWMODELS.push({
