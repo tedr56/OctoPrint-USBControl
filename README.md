@@ -5,7 +5,9 @@ An OctoPrint plugin to allow USB ports to be programmatically turned OFF and ON 
 ## Overview
 > **Raspberry Pi 3B**: A single-board computer made by the Raspberry Pi Foundation
 > 
-> **USB**: (abbreviation of Universal Serial Bus) is an industry standard that establishes specifications for cables, connectors and protocols for connection, communication and power supply between personal computers and their peripheral devices. 
+> **USB**: (abbreviation of Universal Serial Bus) is an industry standard that establishes specifications for cables, connectors and protocols for connection, communication and power supply between personal computers and their peripheral devices.
+>
+> **uhubctl**: The underlying program to turn USB power off and on. In addition to Raspberry Pi 2B, 3B and 3B+ it supports other USB hubs - refer to the list of supported devices on [uhubctl home page](https://github.com/mvp/uhubctl).
 
 * The USB specification was created originally when the Type-A side of a USB cable was the PC and the Type-B side was the device. It was assumed that the PC could always provide power to the device.
 * For OctoPi, the Type-A side is the Raspberry Pi 3B with a 5V 2.5A power adapter. It can't be sinking power over to the printer controller board since that's now considered to be the one with beefier power needs. This is often the case when the printer board is powered off and the Raspberry is still powered on. This could lead to the printer's LCD remaining on under these circumstances.
