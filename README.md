@@ -141,6 +141,9 @@ X-Api-Key: abcdef...
 }
 ```
 
+## Update
+As of v1.0.7, the installation process of the plugin will automatically add a symlink to `/usr/local/bin` for the `uhubctl` program so that you can simply run it from the command line if you're into that.
+
 ## Reporting bugs/issues
 Please do not report a bug if you *can't* print with the USB power turned OFF. It is assumed that this is the case for most printer controllers. If this does work for you, feel lucky.
 
