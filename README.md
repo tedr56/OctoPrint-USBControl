@@ -3,7 +3,7 @@
 An OctoPrint plugin to allow USB ports to be programmatically turned OFF and ON from within the web interface.
 
 ## Overview
-> **Raspberry Pi 3B**: A single-board computer made by the Raspberry Pi Foundation
+> **Raspberry Pi**: A single-board computer made by the Raspberry Pi Foundation
 > 
 > **USB**: (abbreviation of Universal Serial Bus) is an industry standard that establishes specifications for cables, connectors and protocols for connection, communication and power supply between personal computers and their peripheral devices.
 >
@@ -21,8 +21,6 @@ An OctoPrint plugin to allow USB ports to be programmatically turned OFF and ON 
 Rather than rigging up inline switches, applying tape inside the tongue of a USB connector or purchasing specialized male/female adapters which omit the 5V line...
 
     ...I thought that I would provide this plugin as a simpler alternative.
-
-![Settings](https://user-images.githubusercontent.com/15971213/52908070-d4ae9980-3222-11e9-925a-6bff7af7badb.png)
 
 ## Compatibility
 This plugin was created to support only the following platforms:
