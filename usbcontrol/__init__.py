@@ -68,7 +68,7 @@ class UsbcontrolPlugin(octoprint.plugin.SettingsPlugin,
 			self._logger.info("save init in settings")
 			progRev =                             Popen(["cat", "/proc/cpuinfo"], stdin=PIPE, stdout=PIPE, stderr=PIPE)
 			cpuinfo, err =                        progRev.communicate(b"")
-			matchObj =                            re.search(r'^Revision\s+:\s+(.*)$', cpuinfo, re.M)
+			matchObj =                            re.search(r'^Revision\s+:\s+(.*)$', cpuinfo.decode(), re.M)
 			cpuRevision =                         matchObj.group(1) if matchObj else ""
 			piModel =                             self.switch(cpuRevision, 'unknown')
 			s =                                   settings()
