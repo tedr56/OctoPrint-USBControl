@@ -18,7 +18,7 @@
             </label>
         </form>
     </div>
-    <div style='display: {{ 'block' if plugin_usbcontrol_init and (plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B or plugin_usbcontrol_isRaspi3Bplus) else 'none' }}'>
+    <div style='display: {{ 'block' if plugin_usbcontrol_init and (plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B or plugin_usbcontrol_isRaspi3Bplus or plugin_usbcontrol_isRaspi4B) else 'none' }}'>
         <div style="clear:both">
             See the <a href="https://github.com/OutsourcedGuru/OctoPrint-USBControl" target="_blank">README.md</a> for how to set things up.
             Blue in the slider below indicates that 5V power is ON for the indicated port, the default.<br/><br/>
@@ -41,7 +41,7 @@
                 <span class="og_slider round"></span>
                 <span class="theLabel">{{ _('USB&nbsp;3') }}</span>
             </label>
-            <div style='display: {{ 'block' if plugin_usbcontrol_isRaspi3Bplus else 'none' }}'>
+            <div style='display: {{ 'block' if plugin_usbcontrol_isRaspi3Bplus or plugin_usbcontrol_isRaspi4B else 'none' }}'>
             <br/>
             <label class="og_switch">
                 <input id="idUSBAll" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.all, click: togglePowerAll">
@@ -49,7 +49,7 @@
                 <span class="theLabel">{{ _('All&nbsp;USB') }}</span>
             </label>
             </div>
-            <div style='display: {{ 'none' if plugin_usbcontrol_isRaspi3Bplus else 'block' }}'>
+            <div style='display: {{ 'none' if plugin_usbcontrol_isRaspi3Bplus or plugin_usbcontrol_isRaspi4B else 'block' }}'>
             <br/>
             <label class="og_switch">
                 <input id="idUSB4" type="checkbox" data-bind="checked: settings.plugins.usbcontrol.usb4, click: togglePower4" {{'disabled' if plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B else ''}}>
@@ -65,7 +65,7 @@
             </div>
         </form>
     </div>
-    <div style='display: {{ 'none' if (not plugin_usbcontrol_init) or (plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B or plugin_usbcontrol_isRaspi3Bplus) else 'block' }}'>
+    <div style='display: {{ 'none' if (not plugin_usbcontrol_init) or (plugin_usbcontrol_isRaspi2B or plugin_usbcontrol_isRaspi3B or plugin_usbcontrol_isRaspi3Bplus or plugin_usbcontrol_isRaspi4B) else 'block' }}'>
         <div style="clear:both">
             <code>It looks like your OctoPrint is installed on something other than a Raspberry Pi 2B,<br/>
             3B or 3B+ and therefore isn't compatible with this plugin.</code><br/><br/>

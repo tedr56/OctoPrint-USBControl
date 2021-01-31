@@ -67,6 +67,7 @@ class UsbcontrolPlugin(octoprint.plugin.SettingsPlugin,
 			matchObj =                            re.search(r'^Revision\s+:\s+(.*)$', cpuinfo.decode(), re.M)
 			cpuRevision =                         matchObj.group(1) if matchObj else ""
 			piModel =                             self.switch(cpuRevision, 'unknown')
+			self._logger.info("detected Pi model: %s", piModel)
 			s =                                   settings()
 			s.setBoolean(["plugins", "usbcontrol", "init"],           True)
 			s.setBoolean(["plugins", "usbcontrol", "isRaspi2B"],      True if piModel == "Raspi2B" else False)
