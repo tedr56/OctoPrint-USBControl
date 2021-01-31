@@ -8,6 +8,9 @@ import octoprint.plugin
 import os
 import re
 
+__plugin_pythoncompat__ = ">=2.7,<4"
+
+
 class UsbcontrolPlugin(octoprint.plugin.SettingsPlugin,
                        octoprint.plugin.AssetPlugin,
 										 	 octoprint.plugin.SimpleApiPlugin,
